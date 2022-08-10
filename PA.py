@@ -11,7 +11,7 @@ plot = st.container()
 with st.sidebar:
     add_radio = st.selectbox(
         "Choose what you want to see",
-        ("Total number of events per person", "Histogram", "All events by time", "Line plot by time")
+        ("Total number of events per person", "Histogram", "Line plot by time", "All events by time")
     )
 
     if 'Total number of events per person' in add_radio:
@@ -22,10 +22,11 @@ with st.sidebar:
     	with plot:
     		st.write(back.plot())
 
-    elif 'All events by time' in add_radio:
-        with data:
-            st.table(back.final())
-    else:
+    elif 'Line plot by time' in add_radio:
         with plot:
             st.write(back.line_plot())
+    else:
+        with data:
+            st.table(back.final())
+        
         
