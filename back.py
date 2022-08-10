@@ -35,11 +35,11 @@ def line_plot():
 	fig = px.line(full, x = 'value', y = 'hour' , color = 'actor.display_name', markers = True)
 
 	fig.update_layout(
-    xaxis_title = '',
-    yaxis_title = '',
-    yaxis = {'visible' : False, 'showticklabels' : False},
-    legend_title_text = 'User name'
-	)
+    	xaxis_title = '',
+    	yaxis_title = '',
+    	yaxis = {'visible' : False, 'showticklabels' : False},
+    	legend_title_text = 'User name'
+		)
 
 	fig.update_traces(hovertemplate='Event time: %{x} <br>')
 
