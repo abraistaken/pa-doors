@@ -22,9 +22,10 @@ with st.sidebar:
     	with plot:
     		st.write(back.plot())
 
-    elif 'Line plot by time' in add_radio:
-        with plot:
-            st.write(back.line_plot())
-    else:
+    elif 'All events by time' in add_radio:
         with data:
             st.table(back.final())
+    else:
+        with plot:
+            st.write(back.line_plot())
+        
