@@ -1,8 +1,9 @@
 import pandas as pd
 import plotly.express as px
+import streamlit as st
 
-def new_data():
-	df = pd.read_csv('PA OFFICE.csv')
+
+def new_data(df):
 	global df_access
 	df_new = df[['actor.display_name', 'event.published', 'event.type.category', 'target4.display_name']].copy()
 	df_new['count'] = 1
@@ -29,9 +30,9 @@ def plot():
 
 def line_plot():
 	global full
-	test = pd.melt(df_access, id_vars = 'actor.display_name', value_vars = 'Total event amount')
-	test['hour'] = pd.to_datetime(test['value']).dt.hour
-	full = test.sort_values(['actor.display_name', 'value'], ascending = [True, False]).reset_index(drop = True)
+	melted = pd.melt(df_access, id_vars = 'actor.display_name', value_vars = 'Total event amount')
+	melted['hour'] = pd.to_datetime(melted['value']).dt.hour
+	full = melted.sort_values(['actor.display_name', 'value'], ascending = [True, True]).reset_index(drop = True)
 	fig = px.line(full, x = 'value', y = 'hour' , color = 'actor.display_name', markers = True)
 
 	fig.update_layout(
@@ -45,7 +46,20 @@ def line_plot():
 
 	return fig
 
-def final():
+
+def users():
+	global user
+	user = full['actor.display_name'].unique()
+
+	return user
+
+
+def one(user):
 	full_save = full.drop(columns=['variable', 'hour'])
-		
-	return full_save
+	full_save['value'] = pd.to_datetime(full_save['value'])
+	full_save['delta'] = full_save.groupby('actor.display_name')['value'].diff()
+	
+	test = full_save.loc[full_save['actor.display_name'] == user]
+	test = test.rename(columns={'actor.display_name' : 'user_name'})
+
+	return test.to_string()
